@@ -10,7 +10,11 @@ const envSchema = z.object({
   JWT_REFRESH_SECRET: z.string().min(16).default('dev-refresh-secret-change-me-please'),
   ACCESS_TOKEN_TTL: z.string().default('15m'),
   REFRESH_TOKEN_TTL: z.string().default('7d'),
+  EMAIL_VERIFY_TTL: z.string().default('24h'),
+  PASSWORD_RESET_TTL: z.string().default('1h'),
   WEB_ORIGIN: z.string().default('http://localhost:5173'),
+  APP_URL: z.string().default('http://localhost:5173'),
+  MAIL_FROM: z.string().default('no-reply@productivity.local'),
   TELEGRAM_BOT_TOKEN: z.string().optional(),
   TELEGRAM_WEBHOOK_SECRET: z.string().optional(),
 });

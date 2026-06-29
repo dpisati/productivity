@@ -7,3 +7,4 @@
 export * from './common/enums.js';
 export * from './common/primitives.js';
 export * from './common/pagination.js';
+export * from './auth/index.js';

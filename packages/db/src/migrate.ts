@@ -6,21 +6,29 @@ import { dirname, resolve } from 'node:path';
 import { getDatabaseUrl } from './env';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const migrationsFolder = resolve(__dirname, '../drizzle');
 
-/** Apply all pending SQL migrations from ./drizzle, then exit. */
-async function main() {
-  const connection = postgres(getDatabaseUrl(), { max: 1 });
-  const db = drizzle(connection);
-  const migrationsFolder = resolve(__dirname, '../drizzle');
-
-  console.log('[db] running migrations…');
-  await migrate(db, { migrationsFolder });
-  console.log('[db] migrations complete.');
-
-  await connection.end();
+/** Apply all pending SQL migrations from ./drizzle against the given URL. */
+export async function runMigrations(databaseUrl: string = getDatabaseUrl()): Promise<void> {
+  const connection = postgres(databaseUrl, { max: 1 });
+  try {
+    await migrate(drizzle(connection), { migrationsFolder });
+  } finally {
+    await connection.end();
+  }
 }
 
-main().catch((err) => {
-  console.error('[db] migration failed:', err);
-  process.exit(1);
-});
+// CLI entry: `tsx src/migrate.ts`
+const isCli = process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1]);
+if (isCli) {
+  console.log('[db] running migrations…');
+  runMigrations()
+    .then(() => {
+      console.log('[db] migrations complete.');
+      process.exit(0);
+    })
+    .catch((err) => {
+      console.error('[db] migration failed:', err);
+      process.exit(1);
+    });
+}
