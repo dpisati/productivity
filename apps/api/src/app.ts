@@ -14,6 +14,10 @@ import { errorHandlerPlugin } from './plugins/error-handler.js';
 import { healthRoutes } from './modules/health/health.routes.js';
 import { authRoutes } from './modules/auth/auth.routes.js';
 import { usersRoutes } from './modules/users/users.routes.js';
+import { categoriesRoutes } from './modules/categories/categories.routes.js';
+import { incomeRoutes } from './modules/finance/income.routes.js';
+import { expensesRoutes } from './modules/finance/expenses.routes.js';
+import { dashboardRoutes } from './modules/dashboard/dashboard.routes.js';
 
 /**
  * Build the Fastify application without starting it. Shared by the HTTP server
@@ -50,6 +54,10 @@ export async function buildApp(): Promise<FastifyInstance> {
       await api.register(healthRoutes);
       await api.register(authRoutes, { prefix: '/auth' });
       await api.register(usersRoutes, { prefix: '/users' });
+      await api.register(categoriesRoutes, { prefix: '/categories' });
+      await api.register(incomeRoutes, { prefix: '/income' });
+      await api.register(expensesRoutes, { prefix: '/expenses' });
+      await api.register(dashboardRoutes, { prefix: '/dashboard' });
     },
     { prefix: '/api' },
   );

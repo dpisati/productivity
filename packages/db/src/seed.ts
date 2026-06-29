@@ -6,9 +6,13 @@ import * as s from './schema/index';
 const DEMO_EMAIL = 'demo@productivity.app';
 const DEMO_PASSWORD = 'Password123!';
 
-/** Format a Date as YYYY-MM-DD (local). */
+/** Format a Date as YYYY-MM-DD using *local* components (timezone-safe — avoids
+ * the UTC shift that toISOString would introduce near month boundaries). */
 function ymd(d: Date): string {
-  return d.toISOString().slice(0, 10);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
 }
 
 /** Date in the current month on a given day-of-month. */

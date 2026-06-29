@@ -91,7 +91,7 @@ pnpm db:seed      # seed demo data (M2+)
 | **M1** ✅ | Monorepo + tooling skeleton, bootable api/web |
 | **M2** ✅ | Drizzle schema (13 tables), migrations, seed, Docker Postgres |
 | **M3** ✅ | Fastify foundation + full auth (JWT, refresh, reset, verify), RBAC, audit logs, Swagger at `/docs` |
-| M4 | Finance module: categories, income, expenses, dashboard aggregation |
+| **M4** ✅ | Finance module: categories, income, expenses CRUD + dashboard summary & cashflow |
 | M5 | Tasks, recurring rules, occurrences, scheduler, reminders, notifications |
 | M6 | Frontend foundation: router, auth flow, layout, dark mode, typed API client |
 | M7 | Frontend modules + charts (dashboard, finance, tasks, calendar, settings) |
