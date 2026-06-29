@@ -1,27 +1,31 @@
 import { schema, type Database } from '@productivity/db';
-import type { RecurrenceInput, RecurrenceRule } from '@productivity/shared';
+import type { RecurrenceFrequency, RecurrenceInput, RecurrenceRule } from '@productivity/shared';
 
 type RuleRow = typeof schema.recurringRules.$inferSelect;
 
-function addByFrequency(date: Date, input: RecurrenceInput): Date {
+/** YYYY-MM-DD for a Date using UTC components. */
+function ymdUTC(d: Date): string {
+  return d.toISOString().slice(0, 10);
+}
+
+/** Advance a UTC date by one step of the given frequency/interval. */
+function step(date: Date, frequency: RecurrenceFrequency, interval: number): Date {
   const d = new Date(date);
-  const n = input.interval;
-  switch (input.frequency) {
+  switch (frequency) {
     case 'daily':
-      d.setUTCDate(d.getUTCDate() + n);
+      d.setUTCDate(d.getUTCDate() + interval);
       break;
     case 'weekly':
-      d.setUTCDate(d.getUTCDate() + n * 7);
+      d.setUTCDate(d.getUTCDate() + interval * 7);
       break;
     case 'monthly':
-      d.setUTCMonth(d.getUTCMonth() + n);
+      d.setUTCMonth(d.getUTCMonth() + interval);
       break;
     case 'yearly':
-      d.setUTCFullYear(d.getUTCFullYear() + n);
+      d.setUTCFullYear(d.getUTCFullYear() + interval);
       break;
     case 'custom':
-      // cron-driven; advanced by the scheduler (M5). Step a day as a fallback.
-      d.setUTCDate(d.getUTCDate() + 1);
+      d.setUTCDate(d.getUTCDate() + 1); // cron resolved elsewhere; daily fallback
       break;
   }
   return d;
@@ -36,12 +40,36 @@ export function computeNextRunAt(input: RecurrenceInput, from: Date = new Date()
 
   const end = input.endDate ? new Date(`${input.endDate}T23:59:59Z`) : null;
   let cursor = new Date(`${input.startDate}T00:00:00Z`);
-  // Guard against pathological loops.
   for (let i = 0; i < 10_000 && cursor < from; i++) {
-    cursor = addByFrequency(cursor, input);
+    cursor = step(cursor, input.frequency, input.interval);
   }
   if (end && cursor > end) return null;
   return cursor;
+}
+
+/**
+ * Enumerate occurrence dates (YYYY-MM-DD) for a rule within the inclusive
+ * [from, to] window. Custom/cron rules yield nothing here (handled later).
+ */
+export function enumerateOccurrences(
+  rule: Pick<RuleRow, 'frequency' | 'interval' | 'startDate' | 'endDate'>,
+  from: string,
+  to: string,
+): string[] {
+  if (rule.frequency === 'custom') return [];
+
+  const result: string[] = [];
+  const fromD = new Date(`${from}T00:00:00Z`);
+  const toD = new Date(`${to}T00:00:00Z`);
+  const end = rule.endDate ? new Date(`${rule.endDate}T00:00:00Z`) : null;
+  let cursor = new Date(`${rule.startDate}T00:00:00Z`);
+
+  for (let i = 0; i < 2000 && cursor <= toD; i++) {
+    if (end && cursor > end) break;
+    if (cursor >= fromD) result.push(ymdUTC(cursor));
+    cursor = step(cursor, rule.frequency, rule.interval);
+  }
+  return result;
 }
 
 /** Insert a recurring rule for a user and return the row. */

@@ -1,9 +1,14 @@
 import { buildApp } from './app.js';
 import { env } from './config/env.js';
+import { createSchedulerService } from './lib/scheduler.js';
 
 /** HTTP entrypoint. Builds the app and starts listening. */
 async function main() {
   const app = await buildApp();
+
+  // Reminder pipeline (materialize → enqueue → dispatch) every minute.
+  const scheduler = createSchedulerService(app);
+  scheduler.start();
 
   const shutdown = async (signal: string) => {
     app.log.info(`received ${signal}, shutting down`);

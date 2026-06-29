@@ -12,3 +12,6 @@ export * from './auth/index.js';
 export * from './categories/schemas.js';
 export * from './finance/schemas.js';
 export * from './dashboard/schemas.js';
+export * from './tasks/schemas.js';
+export * from './reminders/schemas.js';
+export * from './notifications/schemas.js';

@@ -18,6 +18,9 @@ import { categoriesRoutes } from './modules/categories/categories.routes.js';
 import { incomeRoutes } from './modules/finance/income.routes.js';
 import { expensesRoutes } from './modules/finance/expenses.routes.js';
 import { dashboardRoutes } from './modules/dashboard/dashboard.routes.js';
+import { tasksRoutes } from './modules/tasks/tasks.routes.js';
+import { remindersRoutes } from './modules/reminders/reminders.routes.js';
+import { notificationsRoutes } from './modules/notifications/notifications.routes.js';
 
 /**
  * Build the Fastify application without starting it. Shared by the HTTP server
@@ -58,6 +61,9 @@ export async function buildApp(): Promise<FastifyInstance> {
       await api.register(incomeRoutes, { prefix: '/income' });
       await api.register(expensesRoutes, { prefix: '/expenses' });
       await api.register(dashboardRoutes, { prefix: '/dashboard' });
+      await api.register(tasksRoutes, { prefix: '/tasks' });
+      await api.register(remindersRoutes, { prefix: '/reminders' });
+      await api.register(notificationsRoutes, { prefix: '/notifications' });
     },
     { prefix: '/api' },
   );
