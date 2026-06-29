@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
-import { getDatabaseUrl } from './env.js';
-import * as schema from './schema/index.js';
+import { getDatabaseUrl } from './env';
+import * as schema from './schema/index';
 
 /**
  * Long-lived postgres connection pool + Drizzle client.

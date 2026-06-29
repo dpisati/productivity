@@ -3,7 +3,7 @@ import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import postgres from 'postgres';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
-import { getDatabaseUrl } from './env.js';
+import { getDatabaseUrl } from './env';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

@@ -59,7 +59,18 @@ docker compose up --build
 # web → http://localhost:5173 · api → http://localhost:4000/api/health
 ```
 
-> Postgres is included in compose now; migrations + seed are wired in M2.
+### Database (Docker Postgres)
+
+```bash
+docker compose up -d postgres
+# from the host, migrate + seed (uses localhost):
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/productivity \
+  pnpm --filter @productivity/db migrate
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/productivity \
+  pnpm --filter @productivity/db seed
+```
+
+Demo login (seeded): **demo@productivity.app** / **Password123!**
 
 ## Common scripts
 
@@ -78,7 +89,7 @@ pnpm db:seed      # seed demo data (M2+)
 | Milestone | Scope |
 |-----------|-------|
 | **M1** ✅ | Monorepo + tooling skeleton, bootable api/web |
-| M2 | Drizzle schema, migrations, seed, Docker Postgres |
+| **M2** ✅ | Drizzle schema (13 tables), migrations, seed, Docker Postgres |
 | M3 | Fastify foundation + full auth (JWT, refresh, reset, verify), RBAC, audit logs, Swagger |
 | M4 | Finance module: categories, income, expenses, dashboard aggregation |
 | M5 | Tasks, recurring rules, occurrences, scheduler, reminders, notifications |

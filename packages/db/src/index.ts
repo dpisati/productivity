@@ -1,3 +1,3 @@
-export * from './client.js';
-export * as schema from './schema/index.js';
-export { getDatabaseUrl } from './env.js';
+export * from './client';
+export * as schema from './schema/index';
+export { getDatabaseUrl } from './env';

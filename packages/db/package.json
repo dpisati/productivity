@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@productivity/shared": "workspace:*",
+    "argon2": "^0.41.1",
     "drizzle-orm": "^0.36.4",
     "postgres": "^3.4.5"
   },
