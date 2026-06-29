@@ -1,0 +1,23 @@
+# Dev image for the API — runs tsx watch with hot reload.
+FROM node:20-alpine
+
+RUN corepack enable && corepack prepare pnpm@10.13.1 --activate
+# argon2 needs build tooling for its native bindings.
+RUN apk add --no-cache python3 make g++
+
+WORKDIR /app
+
+# Copy workspace manifests first for better layer caching.
+COPY pnpm-workspace.yaml package.json pnpm-lock.yaml* .npmrc tsconfig.base.json ./
+COPY packages/config/package.json ./packages/config/
+COPY packages/shared/package.json ./packages/shared/
+COPY packages/db/package.json ./packages/db/
+COPY apps/api/package.json ./apps/api/
+
+RUN pnpm install --frozen-lockfile=false
+
+COPY . .
+
+WORKDIR /app/apps/api
+EXPOSE 4000
+CMD ["pnpm", "dev"]

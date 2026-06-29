@@ -1,0 +1,19 @@
+# Dev image for the web app — Vite dev server with hot reload.
+FROM node:20-alpine
+
+RUN corepack enable && corepack prepare pnpm@10.13.1 --activate
+
+WORKDIR /app
+
+COPY pnpm-workspace.yaml package.json pnpm-lock.yaml* .npmrc tsconfig.base.json ./
+COPY packages/config/package.json ./packages/config/
+COPY packages/shared/package.json ./packages/shared/
+COPY apps/web/package.json ./apps/web/
+
+RUN pnpm install --frozen-lockfile=false
+
+COPY . .
+
+WORKDIR /app/apps/web
+EXPOSE 5173
+CMD ["pnpm", "dev", "--host"]
