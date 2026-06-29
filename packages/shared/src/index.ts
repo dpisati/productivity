@@ -15,3 +15,4 @@ export * from './dashboard/schemas.js';
 export * from './tasks/schemas.js';
 export * from './reminders/schemas.js';
 export * from './notifications/schemas.js';
+export * from './settings/schemas.js';

@@ -7,6 +7,13 @@ import { RegisterPage } from '@/features/auth/pages/RegisterPage';
 import { ForgotPasswordPage } from '@/features/auth/pages/ForgotPasswordPage';
 import { ResetPasswordPage } from '@/features/auth/pages/ResetPasswordPage';
 import { DashboardPage } from '@/pages/DashboardPage';
+import { IncomePage } from '@/pages/IncomePage';
+import { ExpensesPage } from '@/pages/ExpensesPage';
+import { CategoriesPage } from '@/pages/CategoriesPage';
+import { TasksPage } from '@/pages/TasksPage';
+import { CalendarPage } from '@/pages/CalendarPage';
+import { NotificationsPage } from '@/pages/NotificationsPage';
+import { SettingsPage } from '@/pages/SettingsPage';
 import { PlaceholderPage } from '@/pages/PlaceholderPage';
 
 export const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
@@ -26,14 +33,14 @@ export const router: ReturnType<typeof createBrowserRouter> = createBrowserRoute
         element: <AppLayout />,
         children: [
           { path: '/', element: <DashboardPage /> },
-          { path: '/income', element: <PlaceholderPage title="Income" /> },
-          { path: '/expenses', element: <PlaceholderPage title="Expenses" /> },
-          { path: '/categories', element: <PlaceholderPage title="Categories" /> },
-          { path: '/tasks', element: <PlaceholderPage title="Tasks" /> },
-          { path: '/calendar', element: <PlaceholderPage title="Calendar" /> },
-          { path: '/notifications', element: <PlaceholderPage title="Notifications" /> },
+          { path: '/income', element: <IncomePage /> },
+          { path: '/expenses', element: <ExpensesPage /> },
+          { path: '/categories', element: <CategoriesPage /> },
+          { path: '/tasks', element: <TasksPage /> },
+          { path: '/calendar', element: <CalendarPage /> },
+          { path: '/notifications', element: <NotificationsPage /> },
           { path: '/integrations', element: <PlaceholderPage title="Integrations" /> },
-          { path: '/settings', element: <PlaceholderPage title="Settings" /> },
+          { path: '/settings', element: <SettingsPage /> },
         ],
       },
     ],

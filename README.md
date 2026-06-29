@@ -94,6 +94,6 @@ pnpm db:seed      # seed demo data (M2+)
 | **M4** ✅ | Finance module: categories, income, expenses CRUD + dashboard summary & cashflow |
 | **M5** ✅ | Tasks + recurring rules + occurrences, node-cron scheduler, reminder pipeline, notifications |
 | **M6** ✅ | Frontend foundation: router, auth flow, layout, dark mode, shadcn/ui, typed API client |
-| M7 | Frontend modules + charts (dashboard, finance, tasks, calendar, settings) |
+| **M7** ✅ | Frontend modules: finance, tasks, calendar, notifications, settings + dashboard charts |
 | M8 | Telegram integration (bot, linking, webhook, notifier) |
 | M9 | Alexa stubs, Playwright E2E, docs, Alexa implementation plan |

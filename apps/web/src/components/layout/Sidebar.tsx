@@ -1,9 +1,11 @@
 import { NavLink } from 'react-router-dom';
 import { Wallet } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useUnreadCount } from '@/features/notifications/hooks';
 import { navItems } from './nav';
 
 export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
+  const { data: unread } = useUnreadCount();
   return (
     <div className="flex h-full w-64 flex-col border-r bg-card">
       <div className="flex h-14 items-center gap-2 border-b px-6 font-semibold">
@@ -27,7 +29,12 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
             }
           >
             <item.icon className="h-4 w-4" />
-            {item.label}
+            <span className="flex-1">{item.label}</span>
+            {item.to === '/notifications' && !!unread?.count && (
+              <span className="rounded-full bg-destructive px-1.5 text-xs font-semibold text-destructive-foreground">
+                {unread.count}
+              </span>
+            )}
           </NavLink>
         ))}
       </nav>
